@@ -16,6 +16,7 @@ from six import iteritems
 
 from .config import testgres_config
 from .exceptions import ExecUtilException
+from security import safe_command
 
 # rows returned by PG_CONFIG
 _pg_config_data = {}
@@ -59,8 +60,7 @@ def execute_utility(args, logfile=None):
     """
 
     # run utility
-    process = subprocess.Popen(
-        args,    # util + params
+    process = safe_command.run(subprocess.Popen, args,    # util + params
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT)
 
