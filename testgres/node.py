@@ -628,7 +628,7 @@ class PostgresNode(object):
 
         return out_dict
 
-    def start(self, params=[], wait=True):
+    def start(self, params=None, wait=True):
         """
         Start this node using pg_ctl.
 
@@ -639,6 +639,7 @@ class PostgresNode(object):
         Returns:
             This instance of :class:`.PostgresNode`.
         """
+        params = [] if params is None else params
 
         _params = [
             get_bin_path("pg_ctl"),
@@ -659,7 +660,7 @@ class PostgresNode(object):
 
         return self
 
-    def stop(self, params=[], wait=True):
+    def stop(self, params=None, wait=True):
         """
         Stop this node using pg_ctl.
 
@@ -670,6 +671,7 @@ class PostgresNode(object):
         Returns:
             This instance of :class:`.PostgresNode`.
         """
+        params = [] if params is None else params
 
         _params = [
             get_bin_path("pg_ctl"),
@@ -684,7 +686,7 @@ class PostgresNode(object):
 
         return self
 
-    def restart(self, params=[]):
+    def restart(self, params=None):
         """
         Restart this node using pg_ctl.
 
@@ -694,6 +696,7 @@ class PostgresNode(object):
         Returns:
             This instance of :class:`.PostgresNode`.
         """
+        params = [] if params is None else params
 
         _params = [
             get_bin_path("pg_ctl"),
@@ -714,7 +717,7 @@ class PostgresNode(object):
 
         return self
 
-    def reload(self, params=[]):
+    def reload(self, params=None):
         """
         Asynchronously reload config files using pg_ctl.
 
@@ -724,6 +727,7 @@ class PostgresNode(object):
         Returns:
             This instance of :class:`.PostgresNode`.
         """
+        params = [] if params is None else params
 
         _params = [
             get_bin_path("pg_ctl"),
@@ -1237,7 +1241,7 @@ class PostgresNode(object):
                 username=None,
                 stdout=None,
                 stderr=None,
-                options=[]):
+                options=None):
         """
         Spawn a pgbench process.
 
@@ -1251,6 +1255,7 @@ class PostgresNode(object):
         Returns:
             Process created by subprocess.Popen.
         """
+        options = [] if options is None else options
 
         # Set default arguments
         dbname = dbname or default_dbname()
@@ -1283,7 +1288,7 @@ class PostgresNode(object):
 
         return self
 
-    def pgbench_run(self, dbname=None, username=None, options=[], **kwargs):
+    def pgbench_run(self, dbname=None, username=None, options=None, **kwargs):
         """
         Run pgbench with some options.
         This event is logged (see self.utils_log_file).
@@ -1303,6 +1308,7 @@ class PostgresNode(object):
             >>> pgbench_run(initialize=True, scale=2)
             >>> pgbench_run(time=10)
         """
+        options = [] if options is None else options
 
         # Set default arguments
         dbname = dbname or default_dbname()
