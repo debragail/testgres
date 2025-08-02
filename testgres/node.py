@@ -81,6 +81,7 @@ from .utils import \
     clean_on_error
 
 from .backup import NodeBackup
+from security import safe_command
 
 
 class ProcessProxy(object):
@@ -882,8 +883,7 @@ class PostgresNode(object):
             raise QueryException('Query or filename must be provided')
 
         # start psql process
-        process = subprocess.Popen(
-            psql_params,
+        process = safe_command.run(subprocess.Popen, psql_params,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
@@ -1266,7 +1266,7 @@ class PostgresNode(object):
         # should be the last one
         _params.append(dbname)
 
-        proc = subprocess.Popen(_params, stdout=stdout, stderr=stderr)
+        proc = safe_command.run(subprocess.Popen, _params, stdout=stdout, stderr=stderr)
 
         return proc
 
